@@ -29,41 +29,60 @@ public class TicTacToeClient {
         buttons = new JButton[9];
         frame.setLayout(new BorderLayout());
 
+        // Title Panel
+        JPanel titlePanel = new JPanel();
+        JLabel titleLabel = new JLabel("Java Advanced Tic Tac Toe Game");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        titlePanel.add(titleLabel);
+
+        // Game Panel
         JPanel gamePanel = new JPanel();
         gamePanel.setLayout(new GridLayout(3, 3));
         for (int i = 0; i < 9; i++) {
             buttons[i] = new JButton("");
-            buttons[i].setFont(new Font("Arial", Font.PLAIN, 40));
+            buttons[i].setFont(new Font("Arial", Font.PLAIN, 60));
             buttons[i].setFocusPainted(false);
             buttons[i].addActionListener(new ButtonListener(i));
             gamePanel.add(buttons[i]);
         }
 
+        // Score Panel
         JPanel scorePanel = new JPanel();
-        scorePanel.setLayout(new GridLayout(3, 2));
-        scorePanel.add(new JLabel("Player X:"));
+        scorePanel.setLayout(new GridLayout(2, 2));
+        JLabel playerXLabel = new JLabel("Player X:");
+        playerXLabel.setFont(new Font("Arial", Font.BOLD, 20));
         playerXScoreLabel = new JLabel("0");
-        scorePanel.add(playerXScoreLabel);
-        scorePanel.add(new JLabel("Player O:"));
+        playerXScoreLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        JLabel playerOLabel = new JLabel("Player O:");
+        playerOLabel.setFont(new Font("Arial", Font.BOLD, 20));
         playerOScoreLabel = new JLabel("0");
+        playerOScoreLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        scorePanel.add(playerXLabel);
+        scorePanel.add(playerXScoreLabel);
+        scorePanel.add(playerOLabel);
         scorePanel.add(playerOScoreLabel);
 
+        // Control Panel
         JPanel controlPanel = new JPanel();
         JButton newGameButton = new JButton("New Game");
+        newGameButton.setFont(new Font("Arial", Font.PLAIN, 20));
         newGameButton.addActionListener(e -> resetGame());
         JButton resetButton = new JButton("Reset");
+        resetButton.setFont(new Font("Arial", Font.PLAIN, 20));
         resetButton.addActionListener(e -> resetScores());
         JButton exitButton = new JButton("Exit");
+        exitButton.setFont(new Font("Arial", Font.PLAIN, 20));
         exitButton.addActionListener(e -> System.exit(0));
         controlPanel.add(newGameButton);
         controlPanel.add(resetButton);
         controlPanel.add(exitButton);
 
+        frame.add(titlePanel, BorderLayout.NORTH);
         frame.add(gamePanel, BorderLayout.CENTER);
-        frame.add(scorePanel, BorderLayout.NORTH);
+        frame.add(scorePanel, BorderLayout.WEST);
         frame.add(controlPanel, BorderLayout.SOUTH);
 
-        frame.setSize(400, 450);
+        frame.setSize(600, 700);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
