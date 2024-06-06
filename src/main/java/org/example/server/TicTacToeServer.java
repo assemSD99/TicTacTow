@@ -23,18 +23,14 @@ public class TicTacToeServer {
         System.out.println("Serveur lancé sur le port " + PORT);
 
         while (true) {
-            try {
-                Socket socket = serverSocket.accept();
-                ClientHandler clientHandler = new ClientHandler(socket, this, clients.size());
-                clients.add(clientHandler);
-                new Thread(clientHandler).start();
+            Socket socket = serverSocket.accept();
+            ClientHandler clientHandler = new ClientHandler(socket, this, clients.size());
+            clients.add(clientHandler);
+            new Thread(clientHandler).start();
 
-                if (clients.size() == 2) {
-                    clients.get(0).sendMessage("YOURTURN X");
-                    clients.get(1).sendMessage("WAIT O");
-                }
-            } catch (IOException e) {
-                System.err.println("Erreur d'acceptation de connexion: " + e.getMessage());
+            if (clients.size() == 2) {
+                clients.get(0).sendMessage("YOURTURN X");
+                clients.get(1).sendMessage("WAIT O");
             }
         }
     }
@@ -66,3 +62,4 @@ public class TicTacToeServer {
         }
     }
 }
+

@@ -1,9 +1,13 @@
 package org.example.server;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.SocketException;
 
-public class ClientHandler implements Runnable {
+class ClientHandler implements Runnable {
     private Socket socket;
     private TicTacToeServer server;
     private PrintWriter out;
@@ -20,10 +24,9 @@ public class ClientHandler implements Runnable {
         try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
             out = new PrintWriter(socket.getOutputStream(), true);
 
-            // Initial turn messages are now sent by the server when the second client connects
-
             String message;
             while ((message = in.readLine()) != null) {
+                System.out.println("Message from client: " + message);
                 String[] tokens = message.split(" ");
                 if (tokens[0].equals("MOVE")) {
                     int index = Integer.parseInt(tokens[1]);
