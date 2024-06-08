@@ -19,13 +19,15 @@ public class TicTacToeClient {
     private JLabel playerOScoreLabel;
     private int playerXScore;
     private int playerOScore;
+    private JTextArea chatArea;
+    private JTextField chatInput;
 
     public TicTacToeClient(String serverAddress) throws IOException {
         socket = new Socket(serverAddress, 12345);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
 
-        frame = new JFrame("Tic Tac Toe");
+        frame = new JFrame("Tic Tac Toe with Chat");
         buttons = new JButton[9];
         frame.setLayout(new BorderLayout());
 
@@ -48,6 +50,24 @@ public class TicTacToeClient {
         playerOScoreLabel = new JLabel("0");
         scorePanel.add(playerOScoreLabel);
 
+<<<<<<< Updated upstream
+=======
+        // Chat Panel
+        JPanel chatPanel = new JPanel();
+        chatPanel.setLayout(new BorderLayout());
+        chatArea = new JTextArea();
+        chatArea.setEditable(false);
+        chatPanel.add(new JScrollPane(chatArea), BorderLayout.CENTER);
+        chatInput = new JTextField();
+        chatInput.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                sendMessage();
+            }
+        });
+        chatPanel.add(chatInput, BorderLayout.SOUTH);
+
+        // Control Panel
+>>>>>>> Stashed changes
         JPanel controlPanel = new JPanel();
         JButton newGameButton = new JButton("New Game");
         newGameButton.addActionListener(e -> resetGame());
@@ -59,11 +79,22 @@ public class TicTacToeClient {
         controlPanel.add(resetButton);
         controlPanel.add(exitButton);
 
+<<<<<<< Updated upstream
         frame.add(gamePanel, BorderLayout.CENTER);
         frame.add(scorePanel, BorderLayout.NORTH);
         frame.add(controlPanel, BorderLayout.SOUTH);
 
         frame.setSize(400, 450);
+=======
+        // Layout the frame
+        frame.add(titlePanel, BorderLayout.NORTH);
+        frame.add(gamePanel, BorderLayout.CENTER);
+        frame.add(scorePanel, BorderLayout.WEST);
+        frame.add(chatPanel, BorderLayout.EAST);
+        frame.add(controlPanel, BorderLayout.SOUTH);
+
+        frame.setSize(800, 700);
+>>>>>>> Stashed changes
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
@@ -95,6 +126,9 @@ public class TicTacToeClient {
                 for (JButton button : buttons) {
                     button.setText("");
                 }
+                break;
+            case "CHAT":
+                chatArea.append(message.substring(5) + "\n");
                 break;
         }
     }
@@ -154,6 +188,12 @@ public class TicTacToeClient {
         playerXScoreLabel.setText("0");
         playerOScoreLabel.setText("0");
         resetGame();
+    }
+
+    private void sendMessage() {
+        String message = chatInput.getText();
+        out.println("CHAT " + message);
+        chatInput.setText("");
     }
 
     private class ButtonListener implements ActionListener {

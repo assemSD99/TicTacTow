@@ -31,6 +31,9 @@ class ClientHandler implements Runnable {
                 if (tokens[0].equals("MOVE")) {
                     int index = Integer.parseInt(tokens[1]);
                     server.processMove(index, player);
+                } else if (tokens[0].equals("CHAT")) {
+                    String chatMessage = message.substring(5);
+                    server.broadcast("CHAT " + chatMessage);
                 }
             }
         } catch (SocketException e) {
